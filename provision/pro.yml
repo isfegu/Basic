@@ -1,0 +1,5 @@
+---
+- hosts: server
+  sudo: true
+  roles:
+    - server
