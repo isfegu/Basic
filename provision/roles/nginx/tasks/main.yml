@@ -1,0 +1,30 @@
+---
+- name: Ensure Apache is not present
+  sudo: yes
+  apt: pkg=apache2 state=absent purge=yes
+
+- name: Install Nginx
+  sudo: yes
+  apt: pkg=nginx state=latest
+
+- name: Copy Nginx config file
+  template: src=nginx.tpl dest=/etc/nginx/nginx.conf
+
+- name: Delete default nginx site
+  sudo: yes
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: Copy basic nginx site
+  sudo: yes
+  template: src={{nginx.site}}.tpl dest=/etc/nginx/sites-enabled/{{nginx.site}}
+
+# Only for testing propouse we will create a ngix site docroot folder
+- name: Create docroot folder
+  file: path={{nginx.docroot}} state=directory mode=0775 group=www-data
+# Only for testing propouse we will copy an index.php file
+- name: Copy index.php file to docroot folder
+  template: src=index.tpl dest={{nginx.docroot}}/index.php mode=0775 owner=www-data group=www-data
+
+- name: Restart Nginx
+  sudo: yes
+  service: name=nginx enabled=yes state=restarted

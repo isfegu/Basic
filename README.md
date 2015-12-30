@@ -1,4 +1,4 @@
-# Esqueleto de un entorno de desarrollo/producción mediante el uso de Vagrant y Ansible
+# Entorno (NGINX y PHP) de desarrollo/producción mediante el uso de Vagrant y Ansible
 
 **Aviso**: Está probado en una Ubuntu 14.04 LTS como sistema operativo.
 
@@ -14,7 +14,7 @@ $ sudo apt-get ansible
 ```
 
 ## CLONADO DEL PROYECTO
-Cada cual clonará el proyecto donde mejor le convenga, para este tutorial será en _~/Projects/Provision/Base_
+Cada cual clonará el proyecto donde mejor le convenga, para este tutorial será en _~/Projects/Provision/Basic_
 
 ## CREACIÓN DE CLAVES
 Para poder usar _ansible_ deberemos crear dos claves ssh, una para desarrollo y otra para producción.
@@ -39,14 +39,14 @@ $ ssh-add ~/.ssh/pro
 
 ## INICIAR LAS MÁQUINAS VIRTUALES
 ``` bash
-~/Projects/Provision/Base/box$ vagrant up
+~/Projects/Provision/Basic/box$ vagrant up
 ```
 
 ## PROBANDO LA COMUNICACIÓN CON ANSIBLE
 Para comprobar que _ansible_ puede acceder a la _box_ _dev_ ejecutaremos:
 
 ``` bash
-~/Projects/Provision/Base$ ansible server -i provision/environments/dev/dev -m ping
+~/Projects/Provision/Basic$ ansible server -i provision/environments/dev/dev -m ping
 ```
 
 Debiéndonos devolver lo siguiente:
@@ -65,25 +65,19 @@ Ver archivos _provision/environments/pro/pro_ y _provision/environments/dev/dev_
 Para aprovisionar *dev* ejecutaremos:
 
 ``` bash
-~/Projects/Provision/Base$ ansible-playbook -i provision/environments/dev/dev provision/dev.yml
+~/Projects/Provision/Basic$ ansible-playbook -i provision/environments/dev/dev provision/dev.yml
 ```
-Lo único que hace este esqueleto es asignar el _hostname_ de cada _host_ pero nos da pie a ver el uso de las variables de ansible especificadas en cada una de los _environments_ en:
 
-- _environments/dev/group_vars/server.yml_
-- _environments/pro/group_vars/server.yml_
-
-Se puede ver el _task_ que cambia el _hostname_ en:
-
-- _roles/server/tasks/main.yml_
-
-De esta manera tenemos centralizadas las _tasks_ de aprovisionamiento para ambos _environments_ pero se especifican diferentes valores en función de las variables especificadas para cada uno.
+## NGINX, PHP-FPM Y COMPOSER
+Mediante ansible se instala _nginx_, _php-fpm_ y _composer_. En _provision/environments/dev/groups_vars_ se puede ver los parámetros
+configurables de cada uno de estos roles.
 
 ## USAR UN SERVIDOR EXTERNO COMO PRODUCCIÓN
 Modificamos el archivo _provision/environments/pro/pro_ especificando la IP del servidor externo.
 
 ### PROBANDO LA COMUNICACIÓN CON ANSIBLE
 ``` bash
-~/Projects/Provision/Base$ ansible server -i provision/environments/pro/pro -m ping
+~/Projects/Provision/Basic$ ansible server -i provision/environments/pro/pro -m ping
 ```
 
 Debiéndonos devolver lo siguiente:
@@ -98,7 +92,7 @@ Debiéndonos devolver lo siguiente:
 Para aprovisionar *dev* ejecutaremos:
 
 ``` bash
-~/Projects/Provision/Base$ ansible-playbook -i provision/environments/pro/pro provision/pro.yml
+~/Projects/Provision/Basic$ ansible-playbook -i provision/environments/pro/pro provision/pro.yml
 ```
 
 ## AGRADECIMIENTOS

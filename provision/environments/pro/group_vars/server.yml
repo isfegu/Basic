@@ -1,4 +1,16 @@
 ---
 server:
     hostname: 'pro'
-    packages: [vim, unattended-upgrades]
+    packages: [vim, git, unattended-upgrades]
+nginx:
+    site: basic
+    docroot: /var/srv/basic
+    servername: basic.dev
+    worker_processes: 1
+    worker_connections: 1024
+    keepalive_timeout: 65
+    expiration: false
+    expire: on
+php:
+    packages: [php5-cli]
+    apc: true

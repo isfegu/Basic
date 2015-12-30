@@ -3,3 +3,6 @@
   sudo: true
   roles:
     - server
+    - nginx
+    - php
+    - composer
