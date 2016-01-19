@@ -1,6 +1,13 @@
-# Entorno (NGINX y PHP) de desarrollo/producción mediante el uso de Vagrant y Ansible
+# Entorno de desarrollo/producción mediante el uso de Vagrant y Ansible
 
 **Aviso**: Está probado en una Ubuntu 14.04 LTS como sistema operativo.
+
+## APLICACIONES
+Instala lo siguiente:
+
+- NGINX
+- PHP
+- COMPOSER
 
 ## PREPARACIÓN DEL ENTORNO
 Instalar vagrant, virtualbox y ansible:
